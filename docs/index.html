@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>StretchText — click a phrase, it grows in place</title>
+        <meta
+            name="description"
+            content="Stretchtext for any web page. Click a phrase and it grows in place, paid with your own Pollen."
+        />
+        <style>
+            :root {
+                color-scheme: light dark;
+                font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+                --ink: #1c1917;
+                --muted: #78716c;
+                --paper: #faf9f6;
+                --line: #e0d9cc;
+                --yellow: #facc15;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--paper);
+                color: var(--ink);
+                line-height: 1.65;
+            }
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --ink: #f5f5f4;
+                    --muted: #a8a29e;
+                    --paper: #1c1917;
+                    --line: #3f3f46;
+                }
+            }
+            header,
+            main,
+            footer {
+                max-width: 780px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+            header {
+                padding-top: 40px;
+            }
+            h1 {
+                font-size: clamp(28px, 5vw, 40px);
+                letter-spacing: -0.6px;
+                margin: 0 0 6px;
+            }
+            .sub {
+                color: var(--muted);
+                margin: 0 0 24px;
+            }
+            .badge img {
+                height: 20px;
+            }
+            .controls {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                align-items: center;
+                padding: 14px;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                margin: 24px 0 28px;
+                background: color-mix(in srgb, var(--paper) 92%, var(--ink));
+            }
+            input[type="password"] {
+                flex: 1 1 220px;
+                padding: 9px 11px;
+                font: inherit;
+                border-radius: 8px;
+                border: 1px solid var(--line);
+                background: transparent;
+                color: inherit;
+            }
+            button {
+                padding: 9px 14px;
+                font: inherit;
+                font-weight: 600;
+                border-radius: 8px;
+                border: 1px solid var(--line);
+                background: var(--yellow);
+                color: #1c1917;
+                cursor: pointer;
+            }
+            button.ghost {
+                background: transparent;
+                color: inherit;
+                font-weight: 500;
+            }
+            .status {
+                font-size: 13px;
+                color: var(--muted);
+                flex-basis: 100%;
+            }
+            #demo p {
+                font-size: 18px;
+            }
+            .stretchtext-phrase {
+                cursor: pointer;
+                border-bottom: 1px dotted currentColor;
+                border-radius: 2px;
+                transition: background-color 120ms ease;
+            }
+            .stretchtext-phrase:hover {
+                background: rgba(250, 204, 21, 0.3);
+            }
+            .stretchtext-detail {
+                cursor: pointer;
+                background: rgba(250, 204, 21, 0.18);
+                box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.55);
+                border-radius: 3px;
+            }
+            .stretchtext-loading {
+                opacity: 0.55;
+                background: rgba(250, 204, 21, 0.25);
+            }
+            code {
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: 0.9em;
+                padding: 1px 5px;
+                border-radius: 4px;
+                background: color-mix(in srgb, var(--paper) 85%, var(--ink));
+            }
+            pre {
+                overflow-x: auto;
+                padding: 14px;
+                border-radius: 10px;
+                border: 1px solid var(--line);
+                font-size: 13px;
+            }
+            footer {
+                padding: 40px 20px 60px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+            a {
+                color: inherit;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>StretchText</h1>
+            <p class="sub">
+                Click a phrase and it grows exactly there. Click the grown passage and it folds back.
+            </p>
+            <a class="badge" href="https://pollinations.ai/?ref=badge">
+                <img
+                    src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg"
+                    alt="Made with pollinations.ai"
+                />
+            </a>
+
+            <div class="controls">
+                <input
+                    id="key"
+                    type="password"
+                    placeholder="Paste your Pollinations key (sk_…) to try it here"
+                    autocomplete="off"
+                />
+                <button id="go">Stretch this page</button>
+                <button id="stop" class="ghost" hidden>Stop</button>
+                <div class="status" id="status">
+                    This demo calls <code>gen.pollinations.ai</code> directly with your key. Nothing is
+                    stored on a server.
+                </div>
+            </div>
+        </header>
+
+        <main id="demo">
+            <p>
+                Stretchtext is a hypertext feature that lets a reader expand a passage in place, without
+                leaving the page or following a link. Ted Nelson described the idea in 1967 and named it in
+                1970, with two throttles: one for navigation and one for expansion. Writing every level by
+                hand was too much work, so it never caught on outside hypertext research and electronic
+                literature.
+            </p>
+            <p>
+                Generated text makes the extra levels cheap enough to be worth writing. Turn on stretching
+                above, then click a phrase in this paragraph and watch it grow where it stands. Each click is
+                one chat completion, billed to your own Pollen at the model's listed rate, and the answer is
+                cached for six hours so a second click is free.
+            </p>
+        </main>
+
+        <footer>
+            <p>
+                The extension wraps exactly this: <code>content.js</code> decorates paragraphs,
+                <code>lib/api.js</code> calls <code>https://gen.pollinations.ai/v1/chat/completions</code>
+                with your key, and <code>lib/stretch.js</code> builds the prompt.
+                <a href="https://github.com/anansyah/stretchtext">Source</a> ·
+                <a href="https://github.com/anansyah/stretchtext#install">Install</a> ·
+                <a href="https://pollinations.ai/?ref=badge">pollinations.ai</a>
+            </p>
+        </footer>
+
+        <script type="module">
+            const API = "https://gen.pollinations.ai";
+            const MODEL = "openai/gpt-5.4-nano";
+            const paragraphSelector = "#demo p";
+            let active = false;
+            let key = "";
+            const cache = new Map();
+
+            const status = document.getElementById("status");
+            const keyInput = document.getElementById("key");
+            const go = document.getElementById("go");
+            const stop = document.getElementById("stop");
+
+            function say(text) {
+                status.innerHTML = text;
+            }
+
+            function sentences(text) {
+                return text
+                    .split(/(?<=[.!?])\s+/)
+                    .map((s) => s.trim())
+                    .filter(Boolean);
+            }
+
+            function phrases(sentence) {
+                const tokens = sentence.split(/(\s+)/).filter(Boolean);
+                const groups = [];
+                let current = [];
+                let words = 0;
+                for (const token of tokens) {
+                    if (/^\s+$/.test(token)) {
+                        current.push(token);
+                        continue;
+                    }
+                    current.push(token);
+                    words += 1;
+                    if (words >= 3) {
+                        groups.push(current.join(""));
+                        current = [];
+                        words = 0;
+                    }
+                }
+                if (current.length) groups.push(current.join(""));
+                return groups.filter((g) => g.trim());
+            }
+
+            function decorate(paragraph) {
+                const text = paragraph.textContent;
+                const fragment = document.createDocumentFragment();
+                for (const sentence of sentences(text)) {
+                    for (const phrase of phrases(sentence)) {
+                        const span = document.createElement("span");
+                        span.className = "stretchtext-phrase";
+                        span.textContent = phrase;
+                        fragment.append(span, document.createTextNode(" "));
+                    }
+                }
+                paragraph.textContent = "";
+                paragraph.append(fragment);
+            }
+
+            async function stretch(phrase, context) {
+                const cacheKey = `${phrase}\u0000${context.slice(0, 200)}`;
+                if (cache.has(cacheKey)) return cache.get(cacheKey);
+                const response = await fetch(`${API}/v1/chat/completions`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${key}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        max_tokens: 400,
+                        messages: [
+                            {
+                                role: "system",
+                                content:
+                                    "You expand a passage the way Ted Nelson's stretchtext does: the reader clicks a phrase and more detail appears exactly there, in place, without repeating what is already written. Return only the expanded passage, one paragraph, no headings, no preamble, no quotes. Keep the original language, names, numbers and claims exactly as given. Add 1 to 3 sentences of new detail.",
+                            },
+                            {
+                                role: "user",
+                                content: `Phrase to expand: "${phrase}"\n\nSurrounding text:\n${context}`,
+                            },
+                        ],
+                    }),
+                });
+                if (!response.ok) {
+                    throw new Error(`Pollinations returned ${response.status}`);
+                }
+                const data = await response.json();
+                const text = data?.choices?.[0]?.message?.content?.trim();
+                if (!text) throw new Error("No text returned");
+                cache.set(cacheKey, text);
+                return text;
+            }
+
+            document.addEventListener("click", async (event) => {
+                if (!active) return;
+                const target = event.target;
+                if (!(target instanceof HTMLElement)) return;
+
+                if (target.classList.contains("stretchtext-phrase")) {
+                    if (!key) {
+                        say("Paste a key above first.");
+                        return;
+                    }
+                    const paragraph = target.closest("p");
+                    const context = paragraph?.textContent ?? "";
+                    const original = target.textContent;
+                    target.classList.add("stretchtext-loading");
+                    try {
+                        const text = await stretch(original, context);
+                        const detail = document.createElement("span");
+                        detail.className = "stretchtext-detail";
+                        detail.dataset.original = original;
+                        detail.textContent = text;
+                        target.replaceWith(detail);
+                        say("Grown in place. Click the highlighted passage to fold it back.");
+                    } catch (error) {
+                        target.classList.remove("stretchtext-loading");
+                        say(`Could not stretch: ${error.message}`);
+                    }
+                } else if (target.classList.contains("stretchtext-detail")) {
+                    const span = document.createElement("span");
+                    span.className = "stretchtext-phrase";
+                    span.textContent = target.dataset.original ?? target.textContent;
+                    target.replaceWith(span);
+                }
+            });
+
+            go.addEventListener("click", () => {
+                key = keyInput.value.trim();
+                if (!key) {
+                    say("Paste your Pollinations key (sk_…) to try this live.");
+                    return;
+                }
+                active = true;
+                for (const paragraph of document.querySelectorAll(paragraphSelector)) {
+                    decorate(paragraph);
+                }
+                go.hidden = true;
+                stop.hidden = false;
+                say("Click any phrase. Each click is one call to <code>gen.pollinations.ai</code>.");
+            });
+
+            stop.addEventListener("click", () => {
+                active = false;
+                stop.hidden = true;
+                go.hidden = false;
+                say("Stopped. Reload to restore the original text.");
+            });
+        </script>
+    </body>
+</html>
