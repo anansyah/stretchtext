@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="assets/badge-made-with.svg" alt="Made with Pollinations" width="180" />
+  <a href="https://pollinations.ai/?ref=badge">
+    <img src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg" alt="Made with pollinations.ai" />
+  </a>
 </p>
 
 <h1 align="center">StretchText</h1>
@@ -33,7 +35,26 @@ StretchText never ships a key. Press **Connect your Pollen** and it runs the
 [device flow](https://github.com/pollinations/pollinations/blob/main/BRING_YOUR_OWN_POLLEN.md): you approve a
 code on `enter.pollinations.ai`, and the extension receives a scoped `sk_` key you can revoke at any time.
 
-- The key lives in `sessionStorage`: it dies with the browser session and is never written to disk.
+### Where the Pollinations calls are
+
+| What | File | Call |
+|---|---|---|
+| Chat completion, one per stretch | `lib/api.js` | `POST https://gen.pollinations.ai/v1/chat/completions` with `Authorization: Bearer <reader key>` |
+| Device code, step 1 | `lib/api.js` | `POST https://enter.pollinations.ai/api/device/code` |
+| Device token, step 3 | `lib/api.js` | `POST https://enter.pollinations.ai/api/device/token` |
+| Key + model storage | `lib/storage.js`, `options.js` | `chrome.storage.session` / `chrome.storage.local` |
+| Prompt sent to the model | `lib/stretch.js` (`stretchPrompt`) | system + user messages |
+| Cached expansion | `lib/expander.js` | six-hour TTL per phrase |
+
+Grep for it:
+
+```bash
+grep -rn "gen.pollinations.ai" lib/ background.js
+grep -rn "chat(" lib/expander.js
+```
+
+- The key lives in `sessionStorage`/`chrome.storage.session`: it dies with the browser session and is never
+  written to disk.
 - Each stretch is one `POST /v1/chat/completions` call, billed to you at the model's listed rate.
 - Default model is `openai/gpt-5.4-nano`; change it in Settings. Any text model works.
 - Answers are cached per phrase for six hours, so clicking the same phrase twice costs once.
@@ -98,5 +119,5 @@ npm test        # 14 tests
 MIT.
 
 <p align="center">
-  <img src="assets/badge-made-with.svg" alt="Made with Pollinations" width="150" />
+  <a href="https://pollinations.ai/?ref=badge"><img src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg" alt="Made with pollinations.ai" /></a>
 </p>
