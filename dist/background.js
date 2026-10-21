@@ -33,7 +33,7 @@
   }
 
   // background.js
-  var CLIENT_ID = "pk_REPLACE_WITH_YOUR_APP_KEY";
+  var CLIENT_ID = "";
   var pending = null;
   async function startSignIn() {
     const code = await requestDeviceCode(CLIENT_ID);

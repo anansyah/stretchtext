@@ -7,7 +7,9 @@ import { pollDeviceToken, requestDeviceCode } from "./lib/api.js";
 
 // The extension's publishable app key. Create one at
 // https://enter.pollinations.ai/keys with this extension's redirect URL.
-const CLIENT_ID = "pk_REPLACE_WITH_YOUR_APP_KEY";
+// Empty means the consent screen falls back to the redirect hostname and
+// traffic is not attributed to a Pollinations account.
+const CLIENT_ID = "";
 
 let pending = null;
 
