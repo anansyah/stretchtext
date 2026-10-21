@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>StretchText settings</title>
+        <style>
+            :root {
+                color-scheme: light dark;
+                font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            }
+            body {
+                max-width: 620px;
+                margin: 32px auto;
+                padding: 0 18px;
+                line-height: 1.55;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            label {
+                display: block;
+                font-weight: 600;
+                margin: 18px 0 6px;
+            }
+            input,
+            select {
+                width: 100%;
+                padding: 8px 10px;
+                font: inherit;
+                border-radius: 8px;
+                border: 1px solid rgba(128, 128, 128, 0.45);
+                background: transparent;
+                color: inherit;
+            }
+            small {
+                opacity: 0.7;
+            }
+            button {
+                margin-top: 16px;
+                padding: 8px 14px;
+                font: inherit;
+                font-weight: 600;
+                border-radius: 8px;
+                border: 1px solid rgba(128, 128, 128, 0.4);
+                background: #facc15;
+                color: #1c1917;
+                cursor: pointer;
+            }
+            #saved {
+                margin-left: 10px;
+                font-size: 13px;
+                opacity: 0.8;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>StretchText settings</h1>
+        <p>
+            StretchText reads with your own Pollinations key. The key stays in
+            <code>sessionStorage</code> for this browser session and is never bundled with the
+            extension.
+        </p>
+
+        <label for="key">Pollinations key (optional)</label>
+        <input id="key" type="password" autocomplete="off" placeholder="sk_… or leave empty to use Connect" />
+        <small>
+            Pasting a key here skips the Connect button. Leave it empty and use “Connect your
+            Pollen” in the toolbar so the extension only ever gets a scoped, revocable key.
+        </small>
+
+        <label for="model">Model</label>
+        <select id="model">
+            <option value="openai/gpt-5.4-nano">openai/gpt-5.4-nano (cheapest)</option>
+            <option value="openai/gpt-5.4-mini">openai/gpt-5.4-mini</option>
+            <option value="mistral/mistral-small">mistral/mistral-small</option>
+        </select>
+        <small>
+            The live list is at
+            <a href="https://gen.pollinations.ai/text/models" target="_blank" rel="noreferrer"
+                >gen.pollinations.ai/text/models</a
+            >. Any text model name works.
+        </small>
+
+        <button id="save">Save</button><span id="saved" role="status"></span>
+
+        <script type="module" src="options.js"></script>
+    </body>
+</html>

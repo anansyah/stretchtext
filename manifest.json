@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "StretchText",
+    "version": "0.1.0",
+    "description": "Click any phrase on a page and it grows in place. You pay with your own Pollen.",
+    "permissions": ["storage", "activeTab", "scripting"],
+    "host_permissions": ["https://gen.pollinations.ai/*", "https://enter.pollinations.ai/*"],
+    "action": {
+        "default_title": "StretchText",
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "options_page": "options.html",
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["stretch.css"],
+            "matches": ["<all_urls>"]
+        }
+    ]
+}

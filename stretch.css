@@ -1,0 +1,57 @@
+/* Stretchtext look: grown text reads as normal prose, clickable phrases hint
+   at themselves without shouting. */
+
+.stretchtext-phrase {
+    cursor: pointer;
+    border-bottom: 1px dotted currentColor;
+    border-radius: 2px;
+    transition: background-color 120ms ease;
+}
+
+.stretchtext-phrase:hover {
+    background-color: rgba(250, 204, 21, 0.28);
+}
+
+.stretchtext-detail {
+    cursor: pointer;
+    background-color: rgba(250, 204, 21, 0.14);
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.5);
+    transition: background-color 120ms ease;
+}
+
+.stretchtext-detail:hover {
+    background-color: rgba(250, 204, 21, 0.08);
+}
+
+.stretchtext-loading {
+    opacity: 0.55;
+    background-image: linear-gradient(
+        90deg,
+        rgba(250, 204, 21, 0.1),
+        rgba(250, 204, 21, 0.45),
+        rgba(250, 204, 21, 0.1)
+    );
+    background-size: 200% 100%;
+    animation: stretchtext-shimmer 1s linear infinite;
+}
+
+.stretchtext-error {
+    background-color: rgba(239, 68, 68, 0.2);
+    border-bottom: 1px dotted rgb(239, 68, 68);
+}
+
+@keyframes stretchtext-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+    to {
+        background-position: -100% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stretchtext-loading {
+        animation: none;
+    }
+}

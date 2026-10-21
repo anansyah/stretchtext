@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>StretchText</title>
+        <style>
+            :root {
+                color-scheme: light dark;
+                font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            }
+            body {
+                margin: 0;
+                width: 300px;
+                padding: 14px 16px 16px;
+                font-size: 13px;
+                line-height: 1.45;
+            }
+            h1 {
+                font-size: 15px;
+                margin: 0 0 4px;
+            }
+            p.hint {
+                margin: 0 0 12px;
+                opacity: 0.7;
+                font-size: 12px;
+            }
+            button {
+                width: 100%;
+                padding: 8px 10px;
+                font: inherit;
+                font-weight: 600;
+                border-radius: 8px;
+                border: 1px solid rgba(128, 128, 128, 0.4);
+                background: #facc15;
+                color: #1c1917;
+                cursor: pointer;
+            }
+            button.secondary {
+                background: transparent;
+                color: inherit;
+                font-weight: 500;
+            }
+            button:disabled {
+                opacity: 0.5;
+                cursor: default;
+            }
+            .row {
+                display: flex;
+                gap: 8px;
+                margin-top: 8px;
+            }
+            .code {
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: 15px;
+                letter-spacing: 1px;
+                padding: 6px 8px;
+                border-radius: 6px;
+                background: rgba(128, 128, 128, 0.16);
+                text-align: center;
+                margin: 10px 0 6px;
+            }
+            [hidden] {
+                display: none !important;
+            }
+            #status {
+                margin-top: 10px;
+                font-size: 12px;
+                opacity: 0.75;
+                min-height: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>StretchText</h1>
+        <p class="hint">Click a phrase and it grows in place. You pay with your own Pollen.</p>
+
+        <button id="toggle" disabled>Stretch this page</button>
+
+        <div id="signin-block">
+            <div class="row">
+                <button id="signin" class="secondary">Connect your Pollen</button>
+            </div>
+            <div id="device" hidden>
+                <div class="code" id="device-code"></div>
+                <a id="device-link" href="#" target="_blank" rel="noreferrer">Open the approval page</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <button id="options" class="secondary">Settings</button>
+            <button id="signout" class="secondary" hidden>Disconnect</button>
+        </div>
+
+        <div id="status" role="status"></div>
+
+        <script type="module" src="popup.js"></script>
+    </body>
+</html>
