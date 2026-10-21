@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>StretchText — screenshot</title>
+        <style>
+            :root {
+                color-scheme: light;
+                font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            }
+            body {
+                margin: 0;
+                width: 1280px;
+                height: 720px;
+                background: #f6f4ef;
+                color: #1c1917;
+                overflow: hidden;
+            }
+            .bar {
+                height: 40px;
+                background: #e7e2d8;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 0 16px;
+                font-size: 12px;
+                color: #57534e;
+                border-bottom: 1px solid #d6cec0;
+            }
+            .dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+            }
+            .url {
+                flex: 1;
+                background: #fff;
+                border: 1px solid #d6cec0;
+                border-radius: 6px;
+                padding: 4px 10px;
+                font-family: ui-monospace, Menlo, monospace;
+            }
+            .layout {
+                display: flex;
+                gap: 28px;
+                padding: 28px 32px;
+            }
+            article {
+                width: 760px;
+                font-size: 19px;
+                line-height: 1.7;
+            }
+            h1 {
+                font-size: 30px;
+                margin: 0 0 6px;
+                letter-spacing: -0.5px;
+            }
+            .byline {
+                font-size: 13px;
+                color: #78716c;
+                margin-bottom: 20px;
+            }
+            .stretchtext-phrase {
+                cursor: pointer;
+                border-bottom: 1px dotted currentColor;
+            }
+            .stretchtext-phrase:hover {
+                background: rgba(250, 204, 21, 0.28);
+            }
+            .stretchtext-detail {
+                background: rgba(250, 204, 21, 0.2);
+                box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.65);
+                border-radius: 3px;
+            }
+            .panel {
+                width: 300px;
+                align-self: flex-start;
+                background: #fff;
+                border: 1px solid #e0d9cc;
+                border-radius: 12px;
+                padding: 16px;
+                box-shadow: 0 10px 30px rgba(28, 25, 23, 0.12);
+                font-size: 13px;
+            }
+            .panel h2 {
+                font-size: 15px;
+                margin: 0 0 4px;
+            }
+            .hint {
+                margin: 0 0 12px;
+                color: #78716c;
+                font-size: 12px;
+            }
+            .btn {
+                display: block;
+                width: 100%;
+                padding: 9px 10px;
+                border-radius: 8px;
+                border: 1px solid rgba(128, 128, 128, 0.35);
+                background: #facc15;
+                color: #1c1917;
+                font-weight: 700;
+                font-size: 13px;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            .btn.secondary {
+                background: transparent;
+                font-weight: 500;
+                margin-top: 8px;
+            }
+            .status {
+                margin-top: 10px;
+                font-size: 12px;
+                color: #78716c;
+            }
+            .tag {
+                display: inline-block;
+                font-size: 11px;
+                background: rgba(250, 204, 21, 0.35);
+                border: 1px solid rgba(202, 138, 4, 0.5);
+                color: #713f12;
+                border-radius: 999px;
+                padding: 2px 8px;
+                margin-bottom: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bar">
+            <span class="dot" style="background: #f87171"></span>
+            <span class="dot" style="background: #fbbf24"></span>
+            <span class="dot" style="background: #4ade80"></span>
+            <span class="url">https://en.wikipedia.org/wiki/StretchText</span>
+        </div>
+        <div class="layout">
+            <article>
+                <span class="tag">StretchText active · 3 phrases grown</span>
+                <h1>StretchText</h1>
+                <div class="byline">From Wikipedia, the free encyclopedia</div>
+                <p>
+                    Stretchtext is a hypertext feature that lets a reader
+                    <span class="stretchtext-phrase">expand a passage</span> where they want more
+                    detail,
+                    <span class="stretchtext-detail"
+                        >without leaving the page or following a link. Ted Nelson set out the idea as
+                        early as 1967 and named it in 1970, describing two throttles: one for
+                        navigation, one for expansion. The reader's click is the only gesture needed,
+                        and the text keeps its place while it grows.</span
+                    >
+                    and
+                    <span class="stretchtext-phrase">shrink it back</span> where they don't.
+                </p>
+                <p>
+                    Writing every level by hand was too much work, so it never caught on outside
+                    hypertext research and electronic literature.
+                    <span class="stretchtext-detail"
+                        >Works such as Pry, Victory Garden and The Jew's Daughter used it as a
+                        narrative device, letting a reader open a memory or a medical chart in
+                        place. Each of those levels had to be authored separately, which is why the
+                        technique stayed a curiosity for decades.</span
+                    >
+                    Generated text makes the
+                    <span class="stretchtext-phrase">extra levels cheap</span> enough to be worth
+                    writing.
+                </p>
+            </article>
+            <aside class="panel">
+                <h2>StretchText</h2>
+                <p class="hint">
+                    Click a phrase and it grows in place. You pay with your own Pollen.
+                </p>
+                <span class="btn">Stop stretching this page</span>
+                <span class="btn secondary">Settings</span>
+                <span class="btn secondary">Disconnect</span>
+                <div class="status">Click any phrase on the page.</div>
+            </aside>
+        </div>
+    </body>
+</html>
