@@ -61,14 +61,58 @@ grep -rn "chat(" lib/expander.js
 
 ## Install
 
-The extension is not on a store yet. Load it unpacked:
+StretchText is not on a browser store yet, so this repository README is its install page: load the
+extension unpacked from source. It takes about two minutes and needs Node.js 18 or newer.
+
+### 1. Get the code
+
+```bash
+git clone https://github.com/anansyah/stretchtext.git
+cd stretchtext
+```
+
+Or download the ZIP from the **Code** button on GitHub and unpack it.
+
+### 2. Build it
 
 ```bash
 npm install
 npm run build          # writes dist/
 ```
 
-Then `chrome://extensions` → Developer mode → **Load unpacked** → pick `dist/`.
+`dist/` is the folder the browser loads. If `npm run build` fails, check that `node -v` reports 18 or newer.
+
+### 3. Load it in the browser
+
+Chrome, Edge, Brave, or any Chromium browser:
+
+1. Open `chrome://extensions` (or `edge://extensions`, `brave://extensions`).
+2. Turn on **Developer mode** (top right).
+3. Click **Load unpacked** and pick the `dist/` folder from step 2.
+
+The StretchText icon appears in the toolbar. Pin it if it is hidden behind the puzzle-piece menu.
+
+Firefox: `about:debugging` -> **This Firefox** -> **Load Temporary Add-on** -> pick `dist/manifest.json`.
+A temporary add-on is removed when Firefox closes.
+
+### 4. Try it
+
+1. Open any article page with real paragraphs (a news site, a blog post).
+2. Click the StretchText icon, then **Stretch this page**.
+3. Click a dotted-underline phrase. It grows in place; click the grown text to fold it back.
+
+Nothing is sent anywhere until you press **Connect your Pollen** and approve the device code, and each
+stretch is then billed to your own account at the model's listed rate.
+
+### Updating
+
+Pull the latest code, run `npm run build` again, then press the reload arrow on the StretchText card in
+`chrome://extensions`.
+
+### Uninstalling
+
+Remove the extension from `chrome://extensions`, and revoke the `sk_` key it created at
+[enter.pollinations.ai/keys](https://enter.pollinations.ai/keys).
 
 ## Set your app key before shipping a build
 
